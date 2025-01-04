@@ -42,8 +42,9 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<SessionProvider session={session}>
-						<CheckAuth />
-						{children}
+						<CheckAuth>
+							{children}
+						</CheckAuth>
 					</SessionProvider>
 				</ThemeProvider>
 			</body>
