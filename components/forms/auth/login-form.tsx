@@ -1,38 +1,47 @@
-'use client'
+'use client';
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormInput, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useForm } from "react-hook-form"
-import { z } from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { LoginSchema } from "@/schema"
-import Link from "next/link"
-import { useFormStatus } from "react-dom"
-import { signIn } from "next-auth/react"
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormInput,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginSchema } from '@/schema';
+import Link from 'next/link';
+import { useFormStatus } from 'react-dom';
+import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 export function LoginForm({
 	className,
-	//   ...props
-}: React.ComponentPropsWithoutRef<"form">) {
-	const { pending: formActionIsPending } = useFormStatus()
+}: React.ComponentPropsWithoutRef<'form'>) {
+	const { pending: formActionIsPending } = useFormStatus();
+	const searchParams = useSearchParams();
+	const email = searchParams.get('email');
 
 	const form = useForm({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
-			email: '',
+			email: email ?? '',
 			password: '',
 		},
 	});
 
 	const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-		const result = await signIn("credentials", {
+		const result = await signIn('credentials', {
 			...data,
 			redirect: true,
-			callbackUrl: '/'
-		})
-		console.log(result)
-	}
+			callbackUrl: '/',
+		});
+	};
 
 	return (
 		<div className={cn('flex flex-col gap-6', className)}>
@@ -43,9 +52,7 @@ export function LoginForm({
 				</p>
 			</div>
 			<Form {...form}>
-				<form onSubmit={
-					form.handleSubmit(onSubmit)
-				}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<div className="flex flex-col gap-6">
 						<FormField
 							control={form.control}
@@ -81,7 +88,11 @@ export function LoginForm({
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="w-full" loading={formActionIsPending}>
+						<Button
+							type="submit"
+							className="w-full"
+							loading={formActionIsPending}
+						>
 							Login
 						</Button>
 					</div>
@@ -97,5 +108,5 @@ export function LoginForm({
 				</form>
 			</Form>
 		</div>
-	)
+	);
 }

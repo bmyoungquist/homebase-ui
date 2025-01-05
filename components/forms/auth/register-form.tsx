@@ -10,15 +10,27 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useFormStatus } from 'react-dom';
-import { Form, FormControl, FormField, FormInput, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormInput,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
 import { LabeledIndicator } from '@/components/ui/labeled-indicator';
 import RequiredIndicator from '@/components/ui/required-indicator';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 export function RegisterForm({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<'div'>) {
 	const { pending: formActionIsPending } = useFormStatus();
+	const router = useRouter();
+	const { toast } = useToast();
 
 	const form = useForm({
 		resolver: zodResolver(RegisterSchema),
@@ -31,8 +43,27 @@ export function RegisterForm({
 		},
 	});
 
-	function onSubmit(formData: z.infer<typeof RegisterSchema>) {
-		console.log(formData);
+	async function onSubmit(formData: z.infer<typeof RegisterSchema>) {
+		const result = await fetch('http://localhost:3000/v1/users', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: formData.email,
+				firstName: formData.firstName,
+				lastName: formData.lastName,
+				password: formData.password,
+			}),
+			headers: { 'Content-Type': 'application/json' },
+		});
+
+		if (result.ok) {
+			return router.push(`login?email=${formData.email}`);
+		} else {
+			toast({
+				variant: 'destructive',
+				title: 'Oops! Something went wrong.',
+				description: JSON.stringify(await result.json()),
+			});
+		}
 	}
 
 	const [eightChars, setEightCars] = useState<boolean | undefined>();
@@ -84,8 +115,7 @@ export function RegisterForm({
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										Email{' '}
-										<RequiredIndicator />
+										Email <RequiredIndicator />
 									</FormLabel>
 									<FormControl>
 										<FormInput
@@ -104,8 +134,7 @@ export function RegisterForm({
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										First Name{' '}
-										<RequiredIndicator />
+										First Name <RequiredIndicator />
 									</FormLabel>
 									<FormControl>
 										<FormInput
@@ -138,15 +167,29 @@ export function RegisterForm({
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										Password{' '}
-										<RequiredIndicator />
+										Password <RequiredIndicator />
 									</FormLabel>
 									<div className="flex flex-col text-xs font-sans">
-										<LabeledIndicator text='1 lowercase' state={oneLower} />
-										<LabeledIndicator text='1 uppercase' state={oneUpper} />
-										<LabeledIndicator text='1 number' state={oneNumber} />
-										<LabeledIndicator text='1 special character (#?!@$%^&*-)' state={oneSpecial} />
-										<LabeledIndicator text='8 characters minimum' state={eightChars} />
+										<LabeledIndicator
+											text="1 lowercase"
+											state={oneLower}
+										/>
+										<LabeledIndicator
+											text="1 uppercase"
+											state={oneUpper}
+										/>
+										<LabeledIndicator
+											text="1 number"
+											state={oneNumber}
+										/>
+										<LabeledIndicator
+											text="1 special character (#?!@$%^&*-)"
+											state={oneSpecial}
+										/>
+										<LabeledIndicator
+											text="8 characters minimum"
+											state={eightChars}
+										/>
 									</div>
 									<FormControl>
 										<FormInput
@@ -172,10 +215,12 @@ export function RegisterForm({
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										Confirm Password{' '}
-										<RequiredIndicator />
+										Confirm Password <RequiredIndicator />
 									</FormLabel>
-									<LabeledIndicator text='Passwords match' state={passwordsMatch} />
+									<LabeledIndicator
+										text="Passwords match"
+										state={passwordsMatch}
+									/>
 									<FormControl>
 										<FormInput
 											{...field}
@@ -194,7 +239,11 @@ export function RegisterForm({
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="w-full" loading={formActionIsPending}>
+						<Button
+							type="submit"
+							className="w-full"
+							loading={formActionIsPending}
+						>
 							Register
 						</Button>
 					</div>
