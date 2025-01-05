@@ -1,5 +1,28 @@
-import { AuthOptions } from "next-auth"
+import { AuthOptions, DefaultSession, DefaultUser } from "next-auth"
+import { DefaultJWT, TokenContents } from "next-auth/jwt"
 import CredentialsProvider from "next-auth/providers/credentials"
+
+declare module "next-auth" {
+	interface Session extends DefaultSession {
+		user?: TokenContents
+	}
+
+	interface User extends DefaultUser {
+		token?: string
+	}
+}
+
+declare module "next-auth/jwt" {
+	interface JWT extends Record<string, unknown>, DefaultJWT {
+		contents?: TokenContents
+	}
+
+	interface TokenContents {
+		id: number
+		email: string
+		name: string
+	}
+}
 
 export const authOptions: AuthOptions = {
 	providers: [
@@ -31,10 +54,19 @@ export const authOptions: AuthOptions = {
 		strategy: "jwt",
 	},
 	callbacks: {
-		jwt: async ({ token }) => {
+		jwt: async ({ token, user }) => {
+			const tokenContents = user?.token ? JSON.parse(Buffer.from(user.token.split(".")[1], "base64").toString()) : undefined
+
+			if (tokenContents) token.contents = tokenContents
+
 			return token
 		},
-		session: async ({ session }) => {
+		session: async ({ session, token }) => {
+			if (token.contents) {
+				console.log({ user: token.contents })
+				session.user = token.contents
+			}
+
 			return session
 		}
 	},

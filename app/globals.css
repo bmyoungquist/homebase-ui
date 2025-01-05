@@ -83,7 +83,8 @@
 @layer base {
   * {
     @apply border-border;
-    @apply font-sans
+    @apply font-sans;
+    user-select: none
   }
   body {
     @apply bg-background text-foreground;
