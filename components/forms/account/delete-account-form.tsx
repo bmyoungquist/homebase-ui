@@ -79,7 +79,7 @@ export function DeleteAccountForm({
 						Delete Account
 					</Button>
 				</DialogTrigger>
-				<DialogContent className="sm:max-w-[425px]">
+				<DialogContent className="sm:max-w-[600px]">
 					<DialogHeader>
 						<DialogTitle>Delete Account?</DialogTitle>
 						<DialogDescription>
@@ -95,7 +95,7 @@ export function DeleteAccountForm({
 								onSubmit={deleteAccountForm.handleSubmit(
 									onSubmit
 								)}
-								className="flex flex-col gap-4"
+								className="flex flex-col gap-2"
 							>
 								<FormField
 									control={deleteAccountForm.control}
@@ -135,6 +135,7 @@ export function DeleteAccountForm({
 									<Button
 										variant="destructive"
 										type="submit"
+										className="mt-4"
 										disabled={formActionIsPending}
 									>
 										Delete Account
