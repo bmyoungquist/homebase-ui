@@ -15,12 +15,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormStatus } from 'react-dom';
-import { signIn, useSession } from 'next-auth/react';
-import { UpdateAccountInfoSchema } from '@/schema/update-account-info';
+import { useSession } from 'next-auth/react';
 import { useToast } from '@/hooks/use-toast';
-import { useEffect } from 'react';
+import { ChangePasswordSchema } from '@/schema/change-password';
 
-export function UpdateAccountInfoForm({
+export function ChangePasswordForm({
 	className,
 }: React.ComponentPropsWithoutRef<'form'>) {
 	const { data: session, update } = useSession();
@@ -28,52 +27,39 @@ export function UpdateAccountInfoForm({
 	const { toast } = useToast();
 
 	const form = useForm({
-		resolver: zodResolver(UpdateAccountInfoSchema),
+		resolver: zodResolver(ChangePasswordSchema),
 		defaultValues: {
-			email: session?.user?.email ?? '',
-			firstName: session?.user?.firstName ?? '',
-			lastName: session?.user?.lastName ?? '',
+			password: '',
+			newPassword: '',
+			newPasswordConfirmation: '',
 		},
 	});
 
-	useEffect(() => {
-		if (!session?.user) return;
-
-		form.setValue('email', session.user.email);
-		form.setValue('firstName', session.user.firstName);
-		form.setValue('lastName', session.user.lastName);
-	}, [session]);
-
-	const onSubmit = async (
-		formData: z.infer<typeof UpdateAccountInfoSchema>
-	) => {
+	const onSubmit = async (formData: z.infer<typeof ChangePasswordSchema>) => {
 		const result = await fetch(
-			`http://localhost:3000/v1/users/${session?.user?.id}`,
+			`http://localhost:3000/v1/users/${session?.user?.id}/password`,
 			{
 				method: 'PATCH',
 				body: JSON.stringify({
-					email: formData.email,
-					firstName: formData.firstName,
-					lastName: formData.lastName,
+					password: formData.password,
+					newPassword: formData.newPassword,
+					newPasswordConfirmation: formData.newPasswordConfirmation,
 				}),
 				headers: { 'Content-Type': 'application/json' },
 			}
 		);
 
 		if (result.ok) {
-			update({
-				user: { ...formData },
-			});
 			toast({
 				variant: 'success',
 				title: 'Success!',
-				description: 'Your information has been updated.',
+				description: 'Your password has been updated',
 			});
 		} else {
 			toast({
 				variant: 'destructive',
 				title: 'Oops! Something went wrong.',
-				description: `We were unable to update your information.\n ${JSON.stringify(
+				description: `We were unable to update your password.\n ${JSON.stringify(
 					await result.json()
 				)}`,
 			});
@@ -82,21 +68,21 @@ export function UpdateAccountInfoForm({
 
 	return (
 		<div className={cn('flex flex-col gap-2', className)}>
-			<h1 className="text-xl font-bold">Account Info</h1>
+			<h1 className="text-xl font-bold">Password</h1>
 			<Form {...form}>
 				<form className="w-96" onSubmit={form.handleSubmit(onSubmit)}>
 					<div className="flex flex-col gap-2">
 						<FormField
 							control={form.control}
-							name="email"
+							name="password"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email</FormLabel>
+									<FormLabel>Current Password</FormLabel>
 									<FormControl>
 										<FormInput
 											{...field}
-											type="email"
-											placeholder="Email"
+											type="password"
+											placeholder="Current Password"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -105,14 +91,15 @@ export function UpdateAccountInfoForm({
 						/>
 						<FormField
 							control={form.control}
-							name="firstName"
+							name="newPassword"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>First Name</FormLabel>
+									<FormLabel>New Password</FormLabel>
 									<FormControl>
 										<FormInput
 											{...field}
-											placeholder="First Name"
+											type="password"
+											placeholder="New Password"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -121,14 +108,15 @@ export function UpdateAccountInfoForm({
 						/>
 						<FormField
 							control={form.control}
-							name="lastName"
+							name="newPasswordConfirmation"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Last Name</FormLabel>
+									<FormLabel>Confirm New Password</FormLabel>
 									<FormControl>
 										<FormInput
 											{...field}
-											placeholder="Last Name"
+											type="password"
+											placeholder="Confirm New Password"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -141,7 +129,7 @@ export function UpdateAccountInfoForm({
 							className="max-w-min mt-2"
 							disabled={formActionIsPending}
 						>
-							Save
+							Change Password
 						</Button>
 					</div>
 				</form>

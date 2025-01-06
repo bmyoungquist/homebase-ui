@@ -1,9 +1,21 @@
+import { ChangePasswordForm } from '@/components/forms/account/change-password-form';
 import { UpdateAccountInfoForm } from '@/components/forms/account/update-info-form';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Form } from 'react-hook-form';
+import { DeleteAccountForm } from '@/components/forms/account/delete-account-form';
 
 export default function AccountSettings() {
 	return (
-		<div className="flex flex-col gap-4">
+		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-0">
 				<h1 className="text-2xl font-bold">Account Settings</h1>
 				<p className="text-sm text-muted-foreground">
@@ -13,10 +25,11 @@ export default function AccountSettings() {
 			<section id="AccountInfo" className="flex flex-col gap-2">
 				<UpdateAccountInfoForm />
 			</section>
-			<section id="Password" className="flex flex-col gap-2"></section>
-			<section id="DeleteOrInactivate" className="flex flex-row gap-4">
-				<Button variant="destructive">Delete Account</Button>
-				<Button variant="secondary">Inactivate Account</Button>
+			<section id="Password" className="flex flex-col gap-2">
+				<ChangePasswordForm />
+			</section>
+			<section id="DeleteAccount" className="flex flex-col gap-4 mb-8">
+				<DeleteAccountForm />
 			</section>
 		</div>
 	);
