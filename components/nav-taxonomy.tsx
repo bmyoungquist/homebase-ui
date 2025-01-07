@@ -2,11 +2,7 @@
 
 import { ChevronRight, type LucideIcon } from "lucide-react"
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -18,8 +14,9 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
-export function NavMain({
+export function NavTaxonomy({
   items,
 }: {
   items: {
@@ -36,7 +33,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Modules</SidebarGroupLabel>
+      <SidebarGroupLabel>Taxonomy</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
@@ -54,7 +51,7 @@ export function NavMain({
                       <span>{item.title}</span>
                     </div>
                   </Link>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <ChevronRight className={cn("ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90", item.items ? 'visible' : 'hidden')} />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>

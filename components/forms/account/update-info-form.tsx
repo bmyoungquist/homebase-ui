@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormStatus } from 'react-dom';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { UpdateAccountInfoSchema } from '@/schema/update-account-info';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';

@@ -11,27 +11,28 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
+import { Control, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormStatus } from 'react-dom';
 import { useSession } from 'next-auth/react';
 import { useToast } from '@/hooks/use-toast';
 import { ChangePasswordSchema } from '@/schema/change-password';
+import { NewPasswordFields } from '../partial/new-password';
 
 export function ChangePasswordForm({
 	className,
 }: React.ComponentPropsWithoutRef<'form'>) {
-	const { data: session, update } = useSession();
+	const { data: session } = useSession();
 	const { pending: formActionIsPending } = useFormStatus();
 	const { toast } = useToast();
 
 	const form = useForm({
 		resolver: zodResolver(ChangePasswordSchema),
 		defaultValues: {
+			currentPassword: '',
 			password: '',
-			newPassword: '',
-			newPasswordConfirmation: '',
+			confirmPassword: '',
 		},
 	});
 
@@ -41,9 +42,9 @@ export function ChangePasswordForm({
 			{
 				method: 'PATCH',
 				body: JSON.stringify({
-					password: formData.password,
-					newPassword: formData.newPassword,
-					newPasswordConfirmation: formData.newPasswordConfirmation,
+					password: formData.currentPassword,
+					newPassword: formData.password,
+					newPasswordConfirmation: formData.confirmPassword,
 				}),
 				headers: { 'Content-Type': 'application/json' },
 			}
@@ -74,7 +75,7 @@ export function ChangePasswordForm({
 					<div className="flex flex-col gap-2">
 						<FormField
 							control={form.control}
-							name="password"
+							name="currentPassword"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Current Password</FormLabel>
@@ -89,39 +90,11 @@ export function ChangePasswordForm({
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="newPassword"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>New Password</FormLabel>
-									<FormControl>
-										<FormInput
-											{...field}
-											type="password"
-											placeholder="New Password"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="newPasswordConfirmation"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Confirm New Password</FormLabel>
-									<FormControl>
-										<FormInput
-											{...field}
-											type="password"
-											placeholder="Confirm New Password"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
+						<NewPasswordFields
+							passwordLabel='New Password'
+							passwordControl={(form.control as unknown) as Control<{ password: string }>}
+							confirmPasswordLabel='Confirm New Password'
+							confirmPasswordControl={(form.control as unknown) as Control<{ confirmPassword: string }>}
 						/>
 						<Button
 							variant="secondary"

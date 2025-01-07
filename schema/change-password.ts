@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 export const ChangePasswordSchema = z.object({
+	currentPassword: z.string(),
 	password: z.string(),
-	newPassword: z.string(),
-	newPasswordConfirmation: z.string(),
+	confirmPassword: z.string(),
 });

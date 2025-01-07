@@ -1,16 +1,5 @@
 import { ChangePasswordForm } from '@/components/forms/account/change-password-form';
 import { UpdateAccountInfoForm } from '@/components/forms/account/update-info-form';
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Form } from 'react-hook-form';
 import { DeleteAccountForm } from '@/components/forms/account/delete-account-form';
 
 export default function AccountSettings() {
