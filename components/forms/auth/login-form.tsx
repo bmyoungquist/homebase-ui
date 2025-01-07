@@ -19,11 +19,12 @@ import Link from 'next/link';
 import { useFormStatus } from 'react-dom';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
+import { useTransition } from 'react';
 
 export function LoginForm({
 	className,
 }: React.ComponentPropsWithoutRef<'form'>) {
-	const { pending: formActionIsPending } = useFormStatus();
+	const [formActionIsPending] = useTransition();
 	const searchParams = useSearchParams();
 	const email = searchParams.get('email');
 

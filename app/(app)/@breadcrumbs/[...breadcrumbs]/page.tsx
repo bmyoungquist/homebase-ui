@@ -45,7 +45,7 @@ export default async function BreadcrumbsSlot({ params }: BreadcrumbSlotProps) {
 												key={`l-${crumb}-${ix}`}
 												href={`/${breadcrumbs
 													.slice(0, ix + 1)
-													.join('/')}z`}
+													.join('/')}`}
 												passHref
 											>
 												{crumb.charAt(0).toUpperCase() +

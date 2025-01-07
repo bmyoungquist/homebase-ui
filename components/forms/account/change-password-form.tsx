@@ -19,12 +19,13 @@ import { useSession } from 'next-auth/react';
 import { useToast } from '@/hooks/use-toast';
 import { ChangePasswordSchema } from '@/schema/change-password';
 import { NewPasswordFields } from '../partial/new-password';
+import { useTransition } from 'react';
 
 export function ChangePasswordForm({
 	className,
 }: React.ComponentPropsWithoutRef<'form'>) {
 	const { data: session } = useSession();
-	const { pending: formActionIsPending } = useFormStatus();
+	const [formActionIsPending] = useTransition();
 	const { toast } = useToast();
 
 	const form = useForm({
@@ -91,10 +92,18 @@ export function ChangePasswordForm({
 							)}
 						/>
 						<NewPasswordFields
-							passwordLabel='New Password'
-							passwordControl={(form.control as unknown) as Control<{ password: string }>}
-							confirmPasswordLabel='Confirm New Password'
-							confirmPasswordControl={(form.control as unknown) as Control<{ confirmPassword: string }>}
+							passwordLabel="New Password"
+							passwordControl={
+								form.control as unknown as Control<{
+									password: string;
+								}>
+							}
+							confirmPasswordLabel="Confirm New Password"
+							confirmPasswordControl={
+								form.control as unknown as Control<{
+									confirmPassword: string;
+								}>
+							}
 						/>
 						<Button
 							variant="secondary"

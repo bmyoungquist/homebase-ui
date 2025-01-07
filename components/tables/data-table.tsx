@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
 import {
 	ColumnDef,
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table';
 import {
 	Table,
 	TableBody,
@@ -13,14 +13,15 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/ui/table"
-import { Button } from "../ui/button"
-import { Plus } from "lucide-react"
-import { Input } from "../ui/input"
+} from '@/components/ui/table';
+import { Button, buttonVariants } from '../ui/button';
+import { Plus } from 'lucide-react';
+import { Input } from '../ui/input';
+import Link from 'next/link';
 
 interface DataTableProps<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[]
-	data: TData[]
+	columns: ColumnDef<TData, TValue>[];
+	data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -31,30 +32,42 @@ export function DataTable<TData, TValue>({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
-	})
+	});
 
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-row justify-between items-center">
-				<Input name="search" placeholder="Search" className="w-72" disabled />
-				<Button variant="default" color="primary" size="sm">
+				<Input
+					name="search"
+					placeholder="Search"
+					className="w-72"
+					disabled
+				/>
+				<Link
+					className={buttonVariants({
+						variant: 'default',
+						size: 'sm',
+					})}
+					href="/places/new"
+				>
 					<Plus />
 					Add Location
-				</Button>
+				</Link>
 			</div>
 			<div className="rounded-md border">
 				<Table>
 					<TableHeader>
-						{table.getHeaderGroups().map(headerGroup => (
+						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => (
 									<TableHead key={header.id}>
 										{header.isPlaceholder
 											? null
 											: flexRender(
-												header.column.columnDef.header,
-												header.getContext()
-											)}
+													header.column.columnDef
+														.header,
+													header.getContext()
+											  )}
 									</TableHead>
 								))}
 							</TableRow>
@@ -65,18 +78,29 @@ export function DataTable<TData, TValue>({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && 'selected'
+									}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id} className="select-text">
-											{flexRender(cell.column.columnDef.cell, cell.getContext())}
+										<TableCell
+											key={cell.id}
+											className="select-text"
+										>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext()
+											)}
 										</TableCell>
 									))}
 								</TableRow>
 							))
 						) : (
 							<TableRow>
-								<TableCell colSpan={columns.length} className="h-24 text-center">
+								<TableCell
+									colSpan={columns.length}
+									className="h-24 text-center"
+								>
 									No results.
 								</TableCell>
 							</TableRow>
@@ -103,5 +127,5 @@ export function DataTable<TData, TValue>({
 				</Button>
 			</div>
 		</div>
-	)
+	);
 }

@@ -7,7 +7,6 @@ import { RegisterSchema } from '@/schema';
 import { Control, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useFormStatus } from 'react-dom';
 import {
 	Form,
 	FormControl,
@@ -21,12 +20,13 @@ import RequiredIndicator from '@/components/ui/required-indicator';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { NewPasswordFields } from '../partial/new-password';
+import { useTransition } from 'react';
 
 export function RegisterForm({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<'div'>) {
-	const { pending: formActionIsPending } = useFormStatus();
+	const [formActionIsPending] = useTransition();
 	const router = useRouter();
 	const { toast } = useToast();
 
@@ -128,8 +128,17 @@ export function RegisterForm({
 							)}
 						/>
 						<NewPasswordFields
-							passwordControl={(form.control as unknown) as Control<{ password: string }>}
-							confirmPasswordControl={(form.control as unknown) as Control<{ confirmPassword: string }>} />
+							passwordControl={
+								form.control as unknown as Control<{
+									password: string;
+								}>
+							}
+							confirmPasswordControl={
+								form.control as unknown as Control<{
+									confirmPassword: string;
+								}>
+							}
+						/>
 						<Button
 							type="submit"
 							className="w-full"

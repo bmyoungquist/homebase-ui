@@ -17,7 +17,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormStatus } from 'react-dom';
 import { signOut, useSession } from 'next-auth/react';
 import { useToast } from '@/hooks/use-toast';
-import { ChangePasswordSchema } from '@/schema/change-password';
 import {
 	Dialog,
 	DialogContent,

@@ -1,121 +1,128 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 import {
 	Box,
 	Boxes,
 	Calculator,
 	CircleDollarSign,
+	ClipboardList,
 	FileQuestion,
 	House,
 	Map,
 	MapPin,
 	PencilRuler,
-} from "lucide-react"
+} from 'lucide-react';
 
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from '@/components/nav-main';
+import { NavUser } from '@/components/nav-user';
+import { TeamSwitcher } from '@/components/team-switcher';
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
 	SidebarRail,
-} from "@/components/ui/sidebar"
-import { NavTaxonomy } from "./nav-taxonomy"
+} from '@/components/ui/sidebar';
+import { NavTaxonomy } from './nav-taxonomy';
 
 // This is sample data.
 const data = {
 	teams: [
 		{
-			name: "Small Business",
+			name: 'Small Business',
 			logo: Box,
-			plan: "Startup",
+			plan: 'Startup',
 		},
 		{
-			name: "Home",
+			name: 'Home',
 			logo: House,
-			plan: "Free",
+			plan: 'Free',
 		},
 	],
 	navMain: [
 		{
-			title: "Inventory",
-			url: "/inventory",
+			title: 'Inventory',
+			url: '/inventory',
 			icon: Boxes,
 			disabled: true,
 			items: [
 				{
-					title: "Groceries",
-					url: "#",
+					title: 'Groceries',
+					url: '#',
 				},
 				{
-					title: "Electronics",
-					url: "#",
+					title: 'Electronics',
+					url: '#',
 				},
 			],
 		},
 		{
-			title: "Budget",
-			url: "/budget",
+			title: 'Budget',
+			url: '/budget',
 			icon: Calculator,
 			disabled: true,
 			items: [
 				{
-					title: "Income",
-					url: "#",
+					title: 'Income',
+					url: '#',
 				},
 				{
-					title: "Expenses",
-					url: "#",
+					title: 'Expenses',
+					url: '#',
 				},
 				{
-					title: "Subscriptions",
-					url: "#",
+					title: 'Subscriptions',
+					url: '#',
 				},
 			],
+		},
+		{
+			title: 'Shopping List',
+			url: '/shopping-list',
+			icon: ClipboardList,
+			disabled: true,
 		},
 	],
 	navTaxonomy: [
 		{
-			title: "Places",
-			url: "/places",
+			title: 'Places',
+			url: '/places',
 			icon: Map,
-			disabled: false
+			disabled: false,
 		},
 		{
-			title: "Locations",
-			url: "/locations",
+			title: 'Locations',
+			url: '/locations',
 			icon: MapPin,
 			disabled: true,
 		},
 		{
-			title: "Containers",
-			url: "/containers",
+			title: 'Containers',
+			url: '/containers',
 			icon: Box,
-			disabled: true
+			disabled: true,
 		},
 		{
-			title: "Item Types",
-			url: "/item-types",
+			title: 'Item Types',
+			url: '/item-types',
 			icon: FileQuestion,
-			disabled: true
+			disabled: true,
 		},
 		{
-			title: "Units",
-			url: "/measurement-units",
+			title: 'Units',
+			url: '/measurement-units',
 			icon: PencilRuler,
-			disabled: true
+			disabled: true,
 		},
 		{
-			title: "Currencies",
-			url: "/currencies",
+			title: 'Currencies',
+			url: '/currencies',
 			icon: CircleDollarSign,
-			disabled: true
-		}
+			disabled: true,
+		},
 	],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
@@ -132,5 +139,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>
-	)
+	);
 }
