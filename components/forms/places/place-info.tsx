@@ -38,16 +38,18 @@ export default function PlaceInfoForm() {
 	return (
 		<>
 			<Form {...form}>
-				<form className="w-96" onSubmit={form.handleSubmit(onSubmit)}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<div className="flex flex-col gap-2">
 						<FormField
 							control={form.control}
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<div className="flex flex-row gap-2 items-center w-96 justify-between">
-										<FormLabel>Name</FormLabel>
-										<div className="flex-flex-col w-72">
+									<div className="flex flex-row gap-2 items-center justify-between">
+										<FormLabel className="w-1/4">
+											Name
+										</FormLabel>
+										<div className="flex-flex-col w-3/4">
 											<FormControl>
 												<FormInput
 													{...field}
@@ -64,9 +66,11 @@ export default function PlaceInfoForm() {
 							control={form.control}
 							name="description"
 							render={({ field }) => (
-								<div className="flex flex-row gap-2 items-center w-96 justify-between">
-									<FormLabel>Description</FormLabel>
-									<div className="flex-flex-col w-72">
+								<div className="flex flex-row gap-2 items-center justify-between">
+									<FormLabel className="w-1/4">
+										Description
+									</FormLabel>
+									<div className="flex-flex-col w-3/4">
 										<FormControl>
 											<FormInput
 												{...field}
@@ -82,9 +86,11 @@ export default function PlaceInfoForm() {
 							control={form.control}
 							name="address1"
 							render={({ field }) => (
-								<div className="flex flex-row gap-2 items-center w-96 justify-between">
-									<FormLabel>Address 1</FormLabel>
-									<div className="flex-flex-col w-72">
+								<div className="flex flex-row gap-2 items-center justify-between">
+									<FormLabel className="w-1/4">
+										Address 1
+									</FormLabel>
+									<div className="flex-flex-col w-3/4">
 										<FormControl>
 											<FormInput
 												{...field}
@@ -100,9 +106,11 @@ export default function PlaceInfoForm() {
 							control={form.control}
 							name="address2"
 							render={({ field }) => (
-								<div className="flex flex-row gap-2 items-center w-96 justify-between">
-									<FormLabel>Address 2</FormLabel>
-									<div className="flex-flex-col w-72">
+								<div className="flex flex-row gap-2 items-center justify-between">
+									<FormLabel className="w-1/4">
+										Address 2
+									</FormLabel>
+									<div className="flex-flex-col w-3/4">
 										<FormControl>
 											<FormInput
 												{...field}
@@ -118,9 +126,11 @@ export default function PlaceInfoForm() {
 							control={form.control}
 							name="city"
 							render={({ field }) => (
-								<div className="flex flex-row gap-2 items-center w-96 justify-between">
-									<FormLabel>City</FormLabel>
-									<div className="flex-flex-col w-72">
+								<div className="flex flex-row gap-2 items-center justify-between">
+									<FormLabel className="w-1/4">
+										City
+									</FormLabel>
+									<div className="flex-flex-col w-3/4">
 										<FormControl>
 											<FormInput
 												{...field}
@@ -136,9 +146,11 @@ export default function PlaceInfoForm() {
 							control={form.control}
 							name="state"
 							render={({ field }) => (
-								<div className="flex flex-row gap-2 items-center w-96 justify-between">
-									<FormLabel>State</FormLabel>
-									<div className="flex-flex-col w-72">
+								<div className="flex flex-row gap-2 items-center justify-between">
+									<FormLabel className="w-1/4">
+										State
+									</FormLabel>
+									<div className="flex-flex-col w-3/4">
 										<FormControl>
 											<FormInput
 												{...field}
@@ -154,9 +166,11 @@ export default function PlaceInfoForm() {
 							control={form.control}
 							name="zipCode"
 							render={({ field }) => (
-								<div className="flex flex-row gap-2 items-center w-96 justify-between">
-									<FormLabel>Zip Code</FormLabel>
-									<div className="flex-flex-col w-72">
+								<div className="flex flex-row gap-2 items-center justify-between">
+									<FormLabel className="w-1/4">
+										Zip Code
+									</FormLabel>
+									<div className="flex-flex-col w-3/4">
 										<FormControl>
 											<FormInput
 												{...field}
