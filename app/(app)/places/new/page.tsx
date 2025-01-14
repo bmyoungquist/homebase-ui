@@ -1,19 +1,10 @@
-import PlaceInfo from '@/components/place-info';
 import Section from '@/components/ui/section';
+import dynamic from 'next/dynamic';
 
 export default function NewLocationPage() {
+	const PlaceInfo = dynamic(() => import("@/components/place-info"))
+
 	return (
-		<div className="flex flex-col gap-4">
-			<PlaceInfo />
-			<Section title="Locations">
-				<></>
-			</Section>
-			<Section title="Items Here">
-				<></>
-			</Section>
-			<Section title="Items Here">
-				<></>
-			</Section>
-		</div>
+		<PlaceInfo />
 	);
 }
